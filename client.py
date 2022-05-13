@@ -3,6 +3,10 @@ from types import NoneType
 import pygame
 import time
 import random
+
+pygame.font.init()
+pygame.mixer.init()
+
 from threading import Thread
 
 from abc import ABC
@@ -24,6 +28,15 @@ THREE = pygame.image.load("images\\Inkedbackground2THREE.jpg")
 THREE = pygame.transform.scale(THREE, (900,500))
 START = pygame.image.load("images\\Inkedbackground2START.jpg")
 START = pygame.transform.scale(START, (900,500))
+
+SPACESHIP = pygame.image.load("images\\spaceship.png")
+SPACESHIP = pygame.transform.scale(SPACESHIP, (40,40))
+
+HEALTH_FONT = pygame.font.Font('font\\game.ttf', 20)
+SCORE_FONT = pygame.font.Font('font\\game.ttf', 20)
+
+END = pygame.font.Font('font\\game.ttf', 100)
+END_SCORE = pygame.font.Font('font\\game.ttf', 40)
 
 MAX_ENEMIES = 3
 enemies = []
@@ -55,13 +68,21 @@ class Enemy():
             return True
         return False
 
-#def SuperEnemy(Enemy):
+def SuperEnemy(Enemy):
+    pass
 
 def Asteroid(Enemy):
     def __init__(self, vel, width, height, color):
         super().__init__(self, vel, width, height, color)
 
-#def SimpleEnemy(Enemy):
+def SimpleEnemy(Enemy):
+    pass
+
+class ABCBullet():
+    pass
+
+class EnemyBullet():
+    pass
 
 class Bullet():
     def __init__(self, color, player, WIN):
@@ -128,7 +149,19 @@ class Player():
 def redrawWINdow(WIN, player, enemies):
 
     WIN.blit(bg, (0, 0))
-    pygame.draw.rect(WIN, player.color, player.rect)
+
+    HealthText = HEALTH_FONT.render(
+        "Health: " + str(player.health), 1, (255, 255, 255))
+    pygame.draw.rect(WIN, (255, 255, 255), (9, 9, 202, 52))
+    pygame.draw.rect(WIN, (0, 0, 0), (10, 10, 200, 50))
+    WIN.blit(HealthText, (15, 15))
+    ScoreText = HEALTH_FONT.render(
+        "Score: " + str(player.score), 1, (255, 255, 255))
+    WIN.blit(ScoreText, (15, 35))
+
+    #pygame.draw.rect(WIN, player.color, player.rect)
+    WIN.blit(SPACESHIP, player.rect)
+
     for bullet in player.bullets:
         bullet.move()
         pygame.draw.rect(WIN, bullet.color, bullet.rect)
@@ -155,9 +188,10 @@ def handleBullets(player, bullets, enemies):
             player.bullets.remove(bullet)
         for enemy in enemies:
             if bullet.rect.colliderect(enemy):
-                player.score+=enemy.points
-                enemies.remove(enemy)
-                print(player.score)
+                enemy.health -=1
+                if enemy.health==0:
+                    player.score+=enemy.points
+                    enemies.remove(enemy)
     return enemies
 
 #Do dodania
@@ -191,6 +225,21 @@ def startGame():
         counting(i)
         time.sleep(1)
 
+def drawEnd(WIN, player):
+    width = 720
+    height =200
+    WIN.blit(bg, (0, 0))
+
+    Text = END.render("You Died!", 1, (255, 255, 255))
+    pygame.draw.rect(WIN, (255, 255, 255),
+                     ((WIDTH / 2 - width / 2) - 1, (HEIGHT / 2 - height / 2) - 1, width+2, height + 2))
+    pygame.draw.rect(WIN, (0, 0, 0), (WIDTH/2-width/2, HEIGHT/2-height/2, width, height))
+    WIN.blit(Text, (WIDTH/2-width/2 +10, HEIGHT/2-height/2 + 10))
+    ScoreText = END_SCORE.render(
+        "Score: " + str(player.score), 1, (255, 255, 255))
+    WIN.blit(ScoreText, (WIDTH/2-width/8, HEIGHT/2-height/2+150))
+    pygame.display.update()
+
 def play():
     #startGame()
     global MAX_ENEMIES
@@ -217,6 +266,12 @@ def play():
         enemies = handleBullets(p, p.bullets, enemies)
         enemies = handleEnemies(p, enemies)
         p.move(keys)
+
+        if p.health<0:
+            drawEnd(WIN, p)
+            time.sleep(5)
+            break
+
         redrawWINdow(WIN, p, enemies)
     pygame.quit()
 
