@@ -25,15 +25,15 @@ START = pygame.transform.scale(START, (900,500))
 clientNumber = 0
 
 
-class Shooter():
+class Bullet():
     def __init__(self, color, player, WIN):
         self.color = color
         self.player = player
-        self.x = player.x+player.width/2
+        self.x = player.x+player.width
         self.y = player.y+player.height/2
         self.width =10
         self.height = 3
-        self.vel = 0.3
+        self.vel = 10
         self.rect = (self.x, self.y, self.width, self.height)
 
     def draw(self, WIN):
@@ -50,8 +50,11 @@ class Player():
         self.width = width
         self.height = height
         self.color = color
-        self.vel = 7                 #wartosc poruszania sie o ile krokow
+        self.vel = 7
         self.rect = (x,y,width,height)
+        self.bullets = []
+        self.maxBullets = 3
+        self.hit = pygame.USEREVENT+1
 
     def draw(self, WIN):
         pygame.draw.rect(WIN, self.color, self.rect)
@@ -61,15 +64,8 @@ class Player():
             return True
         return False
 
-    def shoot(self):
-        self.sh = Shooter((255,0,0), self, WIN)
-        while self.sh.x+self.sh.width<WIDTH:
-            self.sh.move()
-            redrawWINdow(WIN, self)
-        del self.sh
-
-    def move(self):
-        keys = pygame.key.get_pressed() #dictionary of keys that player typed
+    def move(self, keys):
+         #dictionary of keys that player typed
 
         if keys[pygame.K_LEFT]:
             self.x -= self.vel
@@ -88,10 +84,6 @@ class Player():
             if self.border():
                 self.y=HEIGHT-self.height
 
-        if keys[pygame.K_SPACE]:
-            Thread(target = self.shoot()).start()
-            #self.shoot()
-
 
         self.rect = (self.x, self.y, self.width, self.height)
         #print(str(self.x) + " " + str(self.y))
@@ -101,8 +93,9 @@ def redrawWINdow(WIN, player):
 
     WIN.blit(bg, (0, 0))
     player.draw(WIN)
-    if hasattr(player, 'sh'):
-        player.sh.draw(WIN)
+    for bullet in player.bullets:
+        bullet.move()
+        pygame.draw.rect(WIN, bullet.color, bullet.rect)
     pygame.display.update()
 
 def counting(i):
@@ -116,6 +109,15 @@ def counting(i):
         WIN.blit(START, (0, 0))
     pygame.display.update()
 
+def handleBullets(player, bullets):
+    for bullet in bullets:
+        bullet.x += bullet.vel
+        if bullet.x + bullet.width >WIDTH:
+            player.bullets.remove(bullet)
+        #Troche nie dziala bo trzeba przerobic playera na prostokat, ale powinno dzialac - dobre dla przeciwnikow
+        #if (player.rect).colliderect(bullet):
+        #    pygame.event.post(pygame.event.Event(player.hit))
+        #    player.bullets.remove(bullet)
 
 def startGame():
     WIN.blit(bg, (0, 0))
@@ -125,7 +127,7 @@ def startGame():
 
 
 def play():
-    #startGame()
+    startGame()
     clock=pygame.time.Clock()
     run = True
     p = Player(50,50,40,40,(0,255,0))
@@ -135,12 +137,13 @@ def play():
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
-        #WIN.blit(bg, (0, 0))
-        p.move()
-        #Thread(target=p.move()).start()
+            if event.type ==pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and len(p.bullets) < p.maxBullets:
+                    bullet = Bullet((255,0,0),p, WIN)
+                    p.bullets.append(bullet)
+        keys = pygame.key.get_pressed()
+        handleBullets(p, p.bullets)
+        p.move(keys)
         redrawWINdow(WIN, p)
         #print(str(p.x) +" "+ str(p.y))
     pygame.quit()
-
-#if __name__ == '__main__':
-#    play()
