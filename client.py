@@ -1,3 +1,4 @@
+"""
 from types import NoneType
 
 import pygame
@@ -15,19 +16,20 @@ WIDTH = 900
 HEIGHT = 500
 FPS = 80
 
-bg = pygame.image.load("images\\background2.jpg")
-bg = pygame.transform.scale(bg, (900,500))
+bg = pygame.image.load("images\\background.jpg")
+#bg = pygame.transform.scale(bg, (900,500))
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Client")
+#WIN.fill((255, 255, 255))
 
-ONE = pygame.image.load("images\\Inkedbackground2ONE.jpg")
-ONE = pygame.transform.scale(ONE, (900,500))
-TWO = pygame.image.load("images\\Inkedbackground2TWO.jpg")
-TWO = pygame.transform.scale(TWO, (900,500))
-THREE = pygame.image.load("images\\Inkedbackground2THREE.jpg")
-THREE = pygame.transform.scale(THREE, (900,500))
-START = pygame.image.load("images\\Inkedbackground2START.jpg")
-START = pygame.transform.scale(START, (900,500))
+ONE = pygame.image.load("images\\backgroundONE.jpg")
+#ONE = pygame.transform.scale(ONE, (900,500))
+TWO = pygame.image.load("images\\backgroundTWO.jpg")
+#TWO = pygame.transform.scale(TWO, (900,500))
+THREE = pygame.image.load("images\\backgroundTHREE.jpg")
+#THREE = pygame.transform.scale(THREE, (900,500))
+START = pygame.image.load("images\\backgroundSTART.jpg")
+#START = pygame.transform.scale(START, (900,500))
 
 SPACESHIP = pygame.image.load("images\\spaceship.png")
 SPACESHIP = pygame.transform.scale(SPACESHIP, (40,40))
@@ -224,6 +226,7 @@ def startGame():
     for i in range(4):
         counting(i)
         time.sleep(1)
+        pygame.display.update()
 
 def drawEnd(WIN, player):
     width = 720
@@ -241,7 +244,7 @@ def drawEnd(WIN, player):
     pygame.display.update()
 
 def play():
-    #startGame()
+    startGame()
     global MAX_ENEMIES
     start_time = time.time()
     seconds = 0
@@ -260,7 +263,7 @@ def play():
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and len(p.bullets) < p.maxBullets:
-                    bullet = Bullet((255,0,0),p, WIN)
+                    bullet = Bullet((0,0,0),p, WIN)
                     p.bullets.append(bullet)
         keys = pygame.key.get_pressed()
         enemies = handleBullets(p, p.bullets, enemies)
@@ -281,5 +284,6 @@ def spawnEnemy(seconds, enemies):
     if seconds%3==0:
         MAX_ENEMIES += 1
     if len(enemies) <= MAX_ENEMIES:
-        enemies.append(Enemy(7,50, 50,(255,0,0)))
+        enemies.append(Enemy(7,50, 50,(0,0,0)))
         return enemies
+"""
