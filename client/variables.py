@@ -10,6 +10,8 @@ FPS = 80
 WHITE=(255,255,255)
 BLACK=(0,0,0)
 
+FILE = "temp\\lastKeyListening"
+
 bg = pygame.image.load("images\\background.jpg")
 #bg = pygame.transform.scale(bg, (900,500))
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))

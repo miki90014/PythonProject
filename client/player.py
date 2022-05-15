@@ -1,6 +1,6 @@
 import pygame
 
-from Client.variables import WIDTH, HEIGHT
+from client.variables import WIDTH, HEIGHT, FILE
 
 
 class Player():
@@ -25,6 +25,8 @@ class Player():
         if self.x+self.width>WIDTH or self.y+self.height>HEIGHT or self.x<0 or self.y<0:
             return True
         return False
+    def changeVel(self):
+        self.vel = 1.1*self.vel
 
     def move(self, keys):
          #dictionary of keys that player typed

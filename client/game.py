@@ -5,11 +5,11 @@ import pygame
 import time
 import random
 
-from Client.Enemy import spawnEnemy
-from Client.control import handleBullets, handleEnemies
-from Client.player import Player, Bullet
-from Client.variables import WIN, bg, THREE, TWO, ONE, START, END, WIDTH, HEIGHT, END_SCORE, HEALTH_FONT, SPACESHIP, \
-    FPS, WHITE, BLACK, END_QUIT
+from client.Enemy import spawnEnemy
+from client.control import handleBullets, handleEnemies
+from client.player import Player, Bullet
+from client.variables import WIN, bg, THREE, TWO, ONE, START, END, WIDTH, HEIGHT, END_SCORE, HEALTH_FONT, SPACESHIP, \
+    FPS, WHITE, BLACK, END_QUIT, FILE
 from menu import menu
 
 
@@ -87,7 +87,6 @@ def drawEnd(WIN, player):
         if endb.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 run = False
-                print("Sth's gone wrong")
                 menu()
         if quitb.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -130,7 +129,9 @@ def play():
     run = True
     p = Player(50,50,40,40,(0,255,0))
     enemies = []
+    f = open(FILE, "w")
     while run:
+        f.write(str(p.x) + " " + str(p.y) +"\n")
         if seconds< (int)(time.time()-start_time):
             seconds = (int)(time.time()-start_time)
             enemies = spawnEnemy(seconds, enemies)
@@ -140,6 +141,7 @@ def play():
                 run = False
                 pygame.quit()
                 sys.exit()
+                f.close()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and len(p.bullets) < p.maxBullets:
                     bullet = Bullet((0,0,0),p, WIN)
@@ -152,6 +154,8 @@ def play():
         if p.health==0:
             run = False
             drawEnd(WIN, p)
+            f.close()
 
         redrawWINdow(WIN, p, enemies)
     pygame.quit()
+    f.close()

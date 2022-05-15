@@ -2,9 +2,9 @@ import random
 
 import pygame
 
-from Client.variables import WIDTH
-from Client.variables import HEIGHT
-from Client.variables import MAX_ENEMIES
+from client.variables import WIDTH
+from client.variables import HEIGHT
+from client.variables import MAX_ENEMIES
 
 
 

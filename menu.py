@@ -1,9 +1,11 @@
 import sys
 import pygame
 
-import Client.game
-from Client.game import SPACESHIP, HEALTH_FONT
-from Client.variables import WHITE, BLACK
+import client.game
+from animation.menuAnimation import Ship, drawShip, ReadFile
+from client import game
+from client.game import SPACESHIP, HEALTH_FONT
+from client.variables import WHITE, BLACK
 
 WIDTH = 900
 HEIGHT = 500
@@ -75,6 +77,9 @@ def menu():
     quitb = pygame.Rect(buttonx, buttony, buttonw, buttonh)
     quitw = pygame.Rect(buttonx-1, buttony-1, buttonw+2, buttonh+2)
 
+    animate = Ship(50,50,40,40,(0,255,0))
+    reader = ReadFile(animate)
+
 
     while run:
 
@@ -82,6 +87,8 @@ def menu():
         clock.tick(FPS)
 
         mx, my = pygame.mouse.get_pos()
+
+        drawShip(WIN, animate, reader)
 
         #pygame.draw.rect(WIN, WHITE, titlew)
         #pygame.draw.rect(WIN, BLACK, titleb)
@@ -104,7 +111,7 @@ def menu():
         if playb.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 run = False
-                Client.game.play()
+                game.play()
         if multib.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pass

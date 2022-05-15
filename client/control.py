@@ -1,6 +1,6 @@
 import pygame
 
-from Client.variables import WIDTH, HEIGHT
+from client.variables import WIDTH, HEIGHT
 
 
 def handleBullets(player, bullets, enemies):
