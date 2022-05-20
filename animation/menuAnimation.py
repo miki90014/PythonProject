@@ -10,16 +10,22 @@ class Ship(Player):
         super(Ship, self).__init__(x, y, width, height, color)
         f = open(FILE, "r")
         self.movement = f.readlines()
+        self.x = self.width
+        self.vel = 3
         f.close()
 
-    def move(self, x, y):
-        self.x =int(x)
-        self.y =int(y)
+    def move(self, y):
+        self.y = int(y)
+        if self.x + self.vel > WIDTH:
+            self.x = self.width/2
+
+        self.x += self.vel
+
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
 def drawShip(WIN, ship, reader):
     x,y = (reader.move()).split(" ")
-    ship.move(x, y)
+    ship.move(y)
     WIN.blit(SPACESHIP, ship.rect)
 
 

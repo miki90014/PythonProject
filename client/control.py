@@ -42,7 +42,6 @@ def handleEnemies(player, enemies):
             enemies.remove(enemy)
         if player.rect.colliderect(enemy):
             player.health -=1
-            print(player.health)
             pygame.event.post(pygame.event.Event(player.hit))
             enemies.remove(enemy)
     return enemies
