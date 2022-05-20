@@ -88,7 +88,7 @@ def menu():
 
         mx, my = pygame.mouse.get_pos()
 
-        drawShip(WIN, animate, reader)
+        #drawShip(WIN, animate, reader)
 
         #pygame.draw.rect(WIN, WHITE, titlew)
         #pygame.draw.rect(WIN, BLACK, titleb)

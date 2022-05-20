@@ -29,21 +29,63 @@ class Enemy():
             return True
         return False
 
-def SuperEnemy(Enemy):
-    pass
+    def changeVel(self):
+        self.vel = 1.1*self.vel
 
-def Asteroid(Enemy):
-    def __init__(self, vel, width, height, color):
-        super().__init__(self, vel, width, height, color)
+class SimpleEnemy(Enemy):
+    def __init__(self, vel, width, height, color, y):
+        Enemy.__init__(self, vel, width, height, color)
+        rand = random.randint(0, HEIGHT-height)
+        while rand <y+self.height and rand>y-self.height:
+            rand = random.randint(0, HEIGHT - height)
+        self.y = rand
 
-def SimpleEnemy(Enemy):
-    pass
+        self.points = 10
+        self.timeShoot = 3
 
-class ABCBullet():
-    pass
+    def changeTimeShoot(self):
+        self.timeShoot = self.timeShoot/2
+
+    def changeMaxBullets(self):
+        self.maxBullets+=1
+
+class SuperEnemy(SimpleEnemy):
+    def __init__(self, vel, width, height, color, y):
+        SimpleEnemy.__init__(self, vel, width, height, color, y)
+        self.points = 20
+        self.health =2
+        self.up = True
+
+    def move(self):
+        self.x -= self.vel
+        if not self.up:
+            self.y -= self.vel
+        if self.up:
+            self.y += self.vel
+        if self.y-self.height<0:
+            self.up = True
+        if self.y+self.height>HEIGHT:
+            self.up = False
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+
 
 class EnemyBullet():
-    pass
+    def __init__(self, color, enemy):
+        self.color = color
+        self.enemy = enemy
+        self.x = enemy.x - enemy.width
+        self.y = enemy.y + enemy.height / 2
+        self.width = 10
+        self.height = 3
+        self.vel = 7
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+
+    def changeVel(self):
+        self.vel = self.vel * 1.1
+
+    def move(self):
+        self.x -= self.vel
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
 
 def spawnEnemy(seconds, enemies):
@@ -51,6 +93,10 @@ def spawnEnemy(seconds, enemies):
     if seconds%3==0:
         MAX_ENEMIES += 1
     if len(enemies) <= MAX_ENEMIES:
-        enemies.append(Enemy(7,50, 50,(0,0,0)))
+        enemies.append(Enemy(7, 50, 50, (0, 0, 0)))
+        if len(enemies)== 1:
+            enemies.append(SimpleEnemy(5,50, 50,(0,0,255), enemies[0].y))
+        if(seconds%5==0):
+            enemies.append(SuperEnemy(3, 50, 50, (0, 255, 0), enemies[0].y))
         return enemies
 

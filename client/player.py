@@ -29,7 +29,6 @@ class Player():
         self.vel = 1.1*self.vel
 
     def move(self, keys):
-         #dictionary of keys that player typed
 
         if keys[pygame.K_LEFT]:
             self.x -= self.vel

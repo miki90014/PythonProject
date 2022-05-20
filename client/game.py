@@ -6,7 +6,7 @@ import time
 import random
 
 from client.Enemy import spawnEnemy
-from client.control import handleBullets, handleEnemies
+from client.control import handleBullets, handleEnemies, createEBullets
 from client.player import Player, Bullet
 from client.variables import WIN, bg, THREE, TWO, ONE, START, END, WIDTH, HEIGHT, END_SCORE, HEALTH_FONT, SPACESHIP, \
     FPS, WHITE, BLACK, END_QUIT, FILE
@@ -95,7 +95,7 @@ def drawEnd(WIN, player):
 
         pygame.display.update()
 
-def redrawWINdow(WIN, player, enemies):
+def redrawWINdow(WIN, player, enemies, eBullets):
 
     WIN.blit(bg, (0, 0))
 
@@ -118,6 +118,9 @@ def redrawWINdow(WIN, player, enemies):
     for enemy in enemies:
         enemy.move()
         pygame.draw.rect(WIN, enemy.color, enemy.rect)
+    for eBullet in eBullets:
+        eBullet.move()
+        pygame.draw.rect(WIN, eBullet.color, eBullet.rect)
     pygame.display.update()
 
 def play():
@@ -129,12 +132,15 @@ def play():
     run = True
     p = Player(50,50,40,40,(0,255,0))
     enemies = []
+    eBullets = []
     f = open(FILE, "w")
     while run:
         f.write(str(p.x) + " " + str(p.y) +"\n")
         if seconds< (int)(time.time()-start_time):
             seconds = (int)(time.time()-start_time)
             enemies = spawnEnemy(seconds, enemies)
+            if seconds%2==0:
+                eBullets = createEBullets(enemies, eBullets)
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -147,15 +153,15 @@ def play():
                     bullet = Bullet((0,0,0),p, WIN)
                     p.bullets.append(bullet)
         keys = pygame.key.get_pressed()
-        enemies = handleBullets(p, p.bullets, enemies)
+        enemies, eBullets = handleBullets(p, p.bullets, enemies, eBullets)
         enemies = handleEnemies(p, enemies)
         p.move(keys)
 
-        if p.health==0:
+        if p.health<=0:
             run = False
             drawEnd(WIN, p)
             f.close()
 
-        redrawWINdow(WIN, p, enemies)
+        redrawWINdow(WIN, p, enemies, eBullets)
     pygame.quit()
     f.close()
