@@ -6,6 +6,7 @@ from animation.menuAnimation import Ship, drawShip, ReadFile
 from client import game
 from client.game import SPACESHIP, HEALTH_FONT
 from client.variables import WHITE, BLACK
+from instructions import instruction
 
 WIDTH = 900
 HEIGHT = 500
@@ -118,7 +119,8 @@ def menu():
                 #options()
         if instb.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pass
+                run = False
+                instruction(WIN)
                 #option()
         if quitb.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN:

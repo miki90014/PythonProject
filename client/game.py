@@ -6,8 +6,9 @@ import time
 import random
 
 from client.Enemy import spawnEnemy
-from client.control import handleBullets, handleEnemies, createEBullets
+from client.control import handleBullets, handleEnemies, createEBullets, handlePowerUp
 from client.player import Player, Bullet
+from client.powerUp import spawnPowerUp
 from client.variables import WIN, bg, THREE, TWO, ONE, START, END, WIDTH, HEIGHT, END_SCORE, HEALTH_FONT, SPACESHIP, \
     FPS, WHITE, BLACK, END_QUIT, FILE
 from menu import menu
@@ -95,10 +96,7 @@ def drawEnd(WIN, player):
 
         pygame.display.update()
 
-def redrawWINdow(WIN, player, enemies, eBullets):
-
-    WIN.blit(bg, (0, 0))
-
+def redrawText(WIN, player):
     HealthText = HEALTH_FONT.render(
         "Health: " + str(player.health), 1, (255, 255, 255))
     pygame.draw.rect(WIN, (255, 255, 255), (9, 9, 202, 52))
@@ -108,19 +106,31 @@ def redrawWINdow(WIN, player, enemies, eBullets):
         "Score: " + str(player.score), 1, (255, 255, 255))
     WIN.blit(ScoreText, (15, 35))
 
+def redrawWINdow(WIN, player, enemies, eBullets, powerUps):
+
+    WIN.blit(bg, (0, 0))
+
+    redrawText(WIN, player)
+
     #pygame.draw.rect(WIN, player.color, player.rect)
     WIN.blit(SPACESHIP, player.rect)
 
     for bullet in player.bullets:
         bullet.move()
         pygame.draw.rect(WIN, bullet.color, bullet.rect)
-    print(len(enemies))
+
     for enemy in enemies:
         enemy.move()
         pygame.draw.rect(WIN, enemy.color, enemy.rect)
+
     for eBullet in eBullets:
         eBullet.move()
         pygame.draw.rect(WIN, eBullet.color, eBullet.rect)
+
+    for powerUp in powerUps:
+        powerUp.move()
+        pygame.draw.rect(WIN, powerUp.color, powerUp.rect)
+
     pygame.display.update()
 
 def play():
@@ -133,14 +143,15 @@ def play():
     p = Player(50,50,40,40,(0,255,0))
     enemies = []
     eBullets = []
+    powerUps = []
     f = open(FILE, "w")
     while run:
         f.write(str(p.x) + " " + str(p.y) +"\n")
         if seconds< (int)(time.time()-start_time):
             seconds = (int)(time.time()-start_time)
             enemies = spawnEnemy(seconds, enemies)
-            if seconds%2==0:
-                eBullets = createEBullets(enemies, eBullets)
+            #powerUps = spawnPowerUp(seconds, powerUps)
+            eBullets = createEBullets(enemies, eBullets, seconds)
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -152,9 +163,14 @@ def play():
                 if event.key == pygame.K_SPACE and len(p.bullets) < p.maxBullets:
                     bullet = Bullet((0,0,0),p, WIN)
                     p.bullets.append(bullet)
+                if event.key == pygame.K_ESCAPE:
+                    run = False
+                    drawEnd(WIN, p)
+                    f.close()
         keys = pygame.key.get_pressed()
         enemies, eBullets = handleBullets(p, p.bullets, enemies, eBullets)
         enemies = handleEnemies(p, enemies)
+        #powerUps = handlePowerUp(p, powerUps)
         p.move(keys)
 
         if p.health<=0:
@@ -162,6 +178,6 @@ def play():
             drawEnd(WIN, p)
             f.close()
 
-        redrawWINdow(WIN, p, enemies, eBullets)
+        redrawWINdow(WIN, p, enemies, eBullets, powerUps)
     pygame.quit()
     f.close()

@@ -1,0 +1,16 @@
+Welcome to game!
+
+It's a little project made with pygame.
+Avoid or shoot enemies and collect points.
+There are also some power ups to help you progess the game.
+
+Controls:
+key-up-arrow -> up
+key-down-arrow -> down
+key-left-arrow -> left
+key-right-arrow -> right
+key-space -> shoot bullets
+
+Power-up:
+heart -> extra health
+bullet -> you total amount of bullets increase

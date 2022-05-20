@@ -9,8 +9,12 @@ FPS = 80
 
 WHITE=(255,255,255)
 BLACK=(0,0,0)
+YELLOW = (249, 215, 28)
+ORANGEYELLOW = (255, 172, 0)
+
 
 FILE = "temp\\lastKeyListening"
+INST = "txt\\instructions"
 
 bg = pygame.image.load("images\\background.jpg")
 #bg = pygame.transform.scale(bg, (900,500))
@@ -32,6 +36,8 @@ SPACESHIP = pygame.transform.scale(SPACESHIP, (40,40))
 
 HEALTH_FONT = pygame.font.Font('font\\game.ttf', 20)
 SCORE_FONT = pygame.font.Font('font\\game.ttf', 20)
+
+INSTRUCTION_FONT = pygame.font.Font('font\\game.ttf', 15)
 
 END = pygame.font.Font('font\\game.ttf', 100)
 END_SCORE = pygame.font.Font('font\\game.ttf', 40)

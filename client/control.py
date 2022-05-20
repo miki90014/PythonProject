@@ -1,6 +1,6 @@
 import pygame
 
-from client.Enemy import SimpleEnemy, EnemyBullet
+from client.Enemy import SimpleEnemy, EnemyBullet, SuperEnemy
 from client.variables import WIDTH, HEIGHT
 
 
@@ -23,15 +23,17 @@ def handleBullets(player, bullets, enemies, eBullets):
             eBullets.remove(eBullet)
     return enemies, eBullets
 
-#Do dodania
-#def handlePowerUp(player, benefits):
-#    for benefit in benefits:
-#        if benefit.x - benefit.width < WIDTH or benefit.y - benefit.height < HEIGHT:
-#            benefits.remove(benefit)
-#        if player.rect.colliderect(benefit):
-#            benefit.DoSth(player)
-#            benefits.remove(benefit)
-#    return benefits
+
+def handlePowerUp(player, powerUps):
+    for powerUp in powerUps:
+        if powerUp.x - powerUp.width < WIDTH or powerUp.y - powerUp.height < HEIGHT:
+           powerUp.remove(powerUps)
+        if player.rect.colliderect(powerUp):
+            powerUp.DoSth(player)
+            powerUp.remove(powerUp)
+    print(type(powerUps))
+    print("Error in handle PowerUP")
+    return powerUps
 
 
 def handleEnemies(player, enemies):
@@ -45,8 +47,12 @@ def handleEnemies(player, enemies):
             enemies.remove(enemy)
     return enemies
 
-def createEBullets(enemies, eBullets):
+def createEBullets(enemies, eBullets, seconds):
     for enemy in enemies:
         if isinstance(enemy, SimpleEnemy):
-            eBullets.append(EnemyBullet((0,0,255),enemy))
+            if isinstance(enemy, SuperEnemy):
+                eBullets.append(EnemyBullet((0,0,255),enemy))
+            else:
+                if seconds %2 ==0:
+                    eBullets.append(EnemyBullet((0, 0, 255), enemy))
     return eBullets
