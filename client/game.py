@@ -10,7 +10,7 @@ from client.Enemy import spawnEnemy, SuperEnemy, SimpleEnemy
 from client.control import handleBullets, handleEnemies, createEBullets, handlePowerUp
 from client.player import Player, Bullet
 from client.powerUp import spawnPowerUp
-from client.variables import WIN, bg, THREE, TWO, ONE, START, END, WIDTH, HEIGHT, END_SCORE, HEALTH_FONT, SPACESHIP, \
+from client.variables import WIN, bg, END, WIDTH, HEIGHT, END_SCORE, HEALTH_FONT, SPACESHIP, \
     FPS, WHITE, BLACK, END_QUIT, FILE, ASTEROID, SUPERENEMY, ALIEN
 from menu import menu
 
