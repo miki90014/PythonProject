@@ -9,7 +9,7 @@ from client.player import Player
 from client.variables import HEALTH_FONT, bg, SPACESHIP, END, END_SCORE, END_QUIT, WHITE, FPS, WIDTH, HEIGHT, BLACK, \
     WIN, THREE, TWO, ONE, START
 #from menu import menu
-from multi.secPlayer import SecPlayer, handleBullets, handleEnemies
+from bin.secPlayer import SecPlayer, handleBullets, handleEnemies
 from client.player import Bullet
 
 

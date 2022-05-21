@@ -7,6 +7,7 @@ from Network.network import Network
 from Server.variablesServer import gameDate, PlayerData, BulletsData
 from client.player import Player, Bullet
 from client.variables import FPS, WIN, SPACESHIP, bg, HEALTH_FONT
+from multi.control import drawEnd
 
 
 def redrawText(WIN, player1, player2):
@@ -32,7 +33,6 @@ def redrawWINdow(WIN, player1, player2, enemies, eBullets, powerUps):
 
     redrawText(WIN, player1, player2)
 
-    #pygame.draw.rect(WIN, player.color, player.rect)
     WIN.blit(SPACESHIP, player1.rect)
     WIN.blit(SPACESHIP, player2.rect)
 
@@ -63,6 +63,8 @@ def packToData(player, enemies, enemyBullets, powerUps, playerNumber, end):
     newBullets = []
     for bullet in player.bullets:
         newBullets.append(BulletsData(bullet.x, bullet.y, bullet.color, bullet.player))
+    print("I've got bullets now")
+    print(newBullets)
     newPlayerDate = PlayerData(player.x, player.y, player.color, player.health, player.score, player.maxBullets, newBullets)
     return gameDate(newPlayerDate, enemies, enemyBullets, powerUps, playerNumber, end)
 
@@ -85,7 +87,7 @@ def play():
     powerUps = []
     players.append(Player(50,50,40,40,(0,255,0)))
     players.append(Player(100, 50, 40, 40, (255, 0, 255)))
-    pygame.time.delay(3000)
+    pygame.time.delay(2000)
     global MAX_ENEMIES
     start_time = time.time()
     seconds = 0
@@ -93,7 +95,7 @@ def play():
     run = True
     while run:
 
-        if seconds< (int)(time.time()-start_time):
+        if seconds< (int)(time.time()-start_time)+1:
             seconds = (int)(time.time()-start_time)
             #enemies = spawnEnemy(seconds, enemies)
             #powerUps = spawnPowerUp(seconds, powerUps)
@@ -115,9 +117,14 @@ def play():
 
         players[(playerNumber + 1) % 2], enemies, eBullets, powerUps, end = unpackData(cos)
 
+        if end:
+            run = False
+            drawEnd(WIN, players[playerNumber], players[(playerNumber+ 1) % 2])
+
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
+                n.send(packToData(players[playerNumber], enemies, eBullets, powerUps, playerNumber, True))
                 run = False
                 pygame.quit()
                 sys.exit()
@@ -128,10 +135,10 @@ def play():
                     players[playerNumber].bullets.append(bullet)
                 if event.key == pygame.K_ESCAPE:
                     run = False
-                    players[(playerNumber + 1) % 2], enemies, eBullets, powerUps = unpackData(n.send(packToData(players[playerNumber], enemies, eBullets, powerUps, playerNumber, True)))
-                    pygame.quit()
-                    sys.exit()
-                    #drawEnd(WIN, p1, p2)
+                    players[(playerNumber + 1) % 2], enemies, eBullets, powerUps, end = unpackData(n.send(packToData(players[playerNumber], enemies, eBullets, powerUps, playerNumber, True)))
+                    drawEnd(WIN, players[playerNumber], players[(playerNumber+ 1) % 2])
+
+
         keys = pygame.key.get_pressed()
         #enemies, eBullets = handleBullets(p1, p2, p1.bullets, p2.bullets, enemies, eBullets)
         #enemies = handleEnemies(p1, p2, enemies)
@@ -140,18 +147,10 @@ def play():
 
         if players[playerNumber].health<=0 or players[playerNumber].health<=0:
             run = False
-            #players[(playerNumber + 1) % 2], enemies, eBullets, powerUps = unpackData(n.send(packToData(players[playerNumber], enemies, eBullets, powerUps, playerNumber, True)))
-            pygame.quit()
-            sys.exit()
-            #drawEnd(WIN, p1, p2)
+            players[(playerNumber + 1) % 2], enemies, eBullets, powerUps, end = unpackData(n.send(packToData(players[playerNumber], enemies, eBullets, powerUps, playerNumber, True)))
+            drawEnd(WIN, players[playerNumber], players[(playerNumber+ 1) % 2])
 
-        #players[(playerNumber + 1) % 2], enemies, eBullets, powerUps = unpackData(n.send(packToData(players[playerNumber], enemies, eBullets, powerUps, playerNumber, False)))
         redrawWINdow(WIN, players[playerNumber], players[(playerNumber+1)%2], enemies, eBullets, powerUps)
-
-
-        #variable = gameDate(p1, enemies, eBullets, powerUps, seconds)
-        #data_string = pickle.dumps(variable)
-        #n.send(data_string)
 
     pygame.quit()
 
