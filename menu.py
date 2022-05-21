@@ -1,10 +1,9 @@
 import sys
 import pygame
 
-import client.game
 from animation.menuAnimation import Ship, drawShip, ReadFile
 from client import game
-from client.game import SPACESHIP, HEALTH_FONT
+from bin import game2
 from client.variables import WHITE, BLACK
 from instructions import instruction
 
@@ -112,7 +111,8 @@ def menu():
                 game.play()
         if multib.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pass
+                run = False
+                game2.play()
                 #options()
         if instb.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN:

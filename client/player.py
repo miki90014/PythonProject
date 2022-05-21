@@ -47,7 +47,9 @@ class Player():
             if self.border():
                 self.y=HEIGHT-self.height
 
+        self.update()
 
+    def update(self):
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
 class Bullet():

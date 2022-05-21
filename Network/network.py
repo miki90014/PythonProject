@@ -1,4 +1,6 @@
+import pickle
 import socket
+import sys
 
 from Server.variablesServer import SERVER, PORT, BITS
 
@@ -9,26 +11,21 @@ class Network:
         self.server = SERVER
         self.port = PORT
         self.addr = (self.server, self.port)
-        self.id = self.connect()
-        print(self.id)
+        self.number = self.connect()
 
     def connect(self):
         try:
             self.client.connect(self.addr)
-            return self.client.recv(4096).decode()
+            return self.client.recv(BITS).decode()
         except:
             pass
 
     def send(self, data):
         try:
-            self.connect()
-            self.client.send(str.encode(data))
-            return self.client.recv(BITS).decode()
+            #self.connect()
+            self.client.send((pickle.dumps(data)))
+            etwas = pickle.loads(self.client.recv(BITS))
+            print(type(etwas))
+            return etwas
         except socket.error as e:
             print(e)
-
-
-#Testing
-n = Network()
-print(n.send("Hello"))
-#print(n.send("Working"))
