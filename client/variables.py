@@ -20,22 +20,28 @@ FILE = PATH+"temp\\lastKeyListening"
 INST = PATH+"txt\\instructions"
 
 bg = pygame.image.load(PATH+"images\\background.jpg")
-#bg = pygame.transform.scale(bg, (900,500))
+bg = pygame.transform.scale(bg, (900,500))
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Client")
 #WIN.fill((255, 255, 255))
 
-ONE = pygame.image.load(PATH+"images\\backgroundONE.jpg")
-#ONE = pygame.transform.scale(ONE, (900,500))
-TWO = pygame.image.load(PATH+"images\\backgroundTWO.jpg")
-#TWO = pygame.transform.scale(TWO, (900,500))
-THREE = pygame.image.load(PATH+"images\\backgroundTHREE.jpg")
-#THREE = pygame.transform.scale(THREE, (900,500))
 START = pygame.image.load(PATH+"images\\backgroundSTART.jpg")
-#START = pygame.transform.scale(START, (900,500))
+START = pygame.transform.scale(START, (900,500))
 
 SPACESHIP = pygame.image.load(PATH+"images\\spaceship.png")
 SPACESHIP = pygame.transform.scale(SPACESHIP, (40,40))
+
+ASTEROID = pygame.image.load(PATH+"images\\asteroid.png")
+ASTEROID = pygame.transform.scale(ASTEROID, (50,50))
+
+SUPERENEMY = pygame.image.load(PATH+"images\\superEnemy.png")
+SUPERENEMY = pygame.transform.scale(SUPERENEMY, (50,50))
+
+ALIEN = pygame.image.load(PATH+"images\\alien.png")
+ALIEN = pygame.transform.scale(ALIEN, (50,50))
+
+LOSE_HEALTH = pygame.mixer.Sound(PATH+"sound\\health.mp3")
+START_UP = pygame.mixer.Sound(PATH+"sound\\startup.mp3")
 
 HEALTH_FONT = pygame.font.Font(PATH+'font\\game.ttf', 20)
 SCORE_FONT = pygame.font.Font(PATH+'font\\game.ttf', 20)

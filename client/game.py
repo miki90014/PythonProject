@@ -5,34 +5,14 @@ import pygame
 import time
 import random
 
-from client.Enemy import spawnEnemy
+from animation.gameAnimation import startGame
+from client.Enemy import spawnEnemy, SuperEnemy, SimpleEnemy
 from client.control import handleBullets, handleEnemies, createEBullets, handlePowerUp
 from client.player import Player, Bullet
 from client.powerUp import spawnPowerUp
 from client.variables import WIN, bg, THREE, TWO, ONE, START, END, WIDTH, HEIGHT, END_SCORE, HEALTH_FONT, SPACESHIP, \
-    FPS, WHITE, BLACK, END_QUIT, FILE
+    FPS, WHITE, BLACK, END_QUIT, FILE, ASTEROID, SUPERENEMY, ALIEN
 from menu import menu
-
-
-def startGame():
-    WIN.blit(bg, (0, 0))
-    clock = pygame.time.Clock()
-    for i in range(4):
-        clock.tick(FPS)
-        counting(i)
-        time.sleep(1)
-        pygame.display.update()
-
-def counting(i):
-    if(i==0):
-        WIN.blit(THREE, (0, 0))
-    elif i==1:
-        WIN.blit(TWO, (0, 0))
-    elif i==2:
-        WIN.blit(ONE, (0, 0))
-    else:
-        WIN.blit(START, (0, 0))
-    pygame.display.update()
 
 def drawEnd(WIN, player):
     width = 720
@@ -121,7 +101,12 @@ def redrawWINdow(WIN, player, enemies, eBullets, powerUps):
 
     for enemy in enemies:
         enemy.move()
-        pygame.draw.rect(WIN, enemy.color, enemy.rect)
+        if(type(enemy)==SuperEnemy):
+            WIN.blit(SUPERENEMY, enemy.rect)
+        elif(type(enemy)==SimpleEnemy):
+            WIN.blit(ALIEN, enemy.rect)
+        else:
+            WIN.blit(ASTEROID, enemy.rect)
 
     for eBullet in eBullets:
         eBullet.move()
@@ -134,7 +119,7 @@ def redrawWINdow(WIN, player, enemies, eBullets, powerUps):
     pygame.display.update()
 
 def play():
-    startGame()
+    startGame(WIN)
     global MAX_ENEMIES
     start_time = time.time()
     seconds = 0
@@ -161,7 +146,7 @@ def play():
                 f.close()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and len(p.bullets) < p.maxBullets:
-                    bullet = Bullet((0,0,0),p, WIN)
+                    bullet = Bullet((255,0,0),p, WIN)
                     p.bullets.append(bullet)
                 if event.key == pygame.K_ESCAPE:
                     run = False
