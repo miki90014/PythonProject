@@ -160,8 +160,8 @@ def play():
 
         if p.health<=0:
             run = False
-            drawEnd(WIN, p)
             f.close()
+            drawEnd(WIN, p)
 
         redrawWINdow(WIN, p, enemies, eBullets, powerUps)
     pygame.quit()
