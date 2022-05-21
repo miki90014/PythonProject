@@ -9,9 +9,9 @@ from animation.gameAnimation import startGame
 from client.Enemy import spawnEnemy, SuperEnemy, SimpleEnemy
 from client.control import handleBullets, handleEnemies, createEBullets, handlePowerUp
 from client.player import Player, Bullet
-from client.powerUp import spawnPowerUp
+from client.powerUp import spawnPowerUp, Health, NewBullets
 from client.variables import WIN, bg, END, WIDTH, HEIGHT, END_SCORE, HEALTH_FONT, SPACESHIP, \
-    FPS, WHITE, BLACK, END_QUIT, FILE, ASTEROID, SUPERENEMY, ALIEN
+    FPS, WHITE, BLACK, END_QUIT, FILE, ASTEROID, SUPERENEMY, ALIEN, HEART, BULLET
 from menu import menu
 
 def drawEnd(WIN, player):
@@ -114,11 +114,15 @@ def redrawWINdow(WIN, player, enemies, eBullets, powerUps):
 
     for powerUp in powerUps:
         powerUp.move()
-        pygame.draw.rect(WIN, powerUp.color, powerUp.rect)
+        if (type(powerUp) == Health):
+            WIN.blit(HEART, powerUp.rect)
+        elif (type(powerUp) == NewBullets):
+            WIN.blit(BULLET, powerUp.rect)
 
     pygame.display.update()
 
 def play():
+
     startGame(WIN)
     global MAX_ENEMIES
     start_time = time.time()
@@ -130,14 +134,17 @@ def play():
     eBullets = []
     powerUps = []
     f = open(FILE, "w")
+
     while run:
         f.write(str(p.x) + " " + str(p.y) +"\n")
         if seconds< (int)(time.time()-start_time):
             seconds = (int)(time.time()-start_time)
             enemies = spawnEnemy(seconds, enemies)
-            #powerUps = spawnPowerUp(seconds, powerUps)
+            powerUps = spawnPowerUp(seconds, powerUps)
             eBullets = createEBullets(enemies, eBullets, seconds)
+
         clock.tick(FPS)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -152,10 +159,13 @@ def play():
                     run = False
                     drawEnd(WIN, p)
                     f.close()
+
         keys = pygame.key.get_pressed()
+
         enemies, eBullets = handleBullets(p, p.bullets, enemies, eBullets)
         enemies = handleEnemies(p, enemies)
-        #powerUps = handlePowerUp(p, powerUps)
+        powerUps = handlePowerUp(p, powerUps)
+
         p.move(keys)
 
         if p.health<=0:
@@ -164,5 +174,6 @@ def play():
             drawEnd(WIN, p)
 
         redrawWINdow(WIN, p, enemies, eBullets, powerUps)
+
     pygame.quit()
     f.close()

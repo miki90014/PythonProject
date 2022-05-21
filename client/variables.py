@@ -40,8 +40,15 @@ SUPERENEMY = pygame.transform.scale(SUPERENEMY, (50,50))
 ALIEN = pygame.image.load(PATH+"images\\alien.png")
 ALIEN = pygame.transform.scale(ALIEN, (50,50))
 
+HEART = pygame.image.load(PATH+"images\\heart.png")
+HEART = pygame.transform.scale(HEART, (50,50))
+
+BULLET = pygame.image.load(PATH+"images\\bullet.png")
+BULLET = pygame.transform.scale(BULLET, (50,50))
+
 LOSE_HEALTH = pygame.mixer.Sound(PATH+"sound\\health.mp3")
 START_UP = pygame.mixer.Sound(PATH+"sound\\startup.mp3")
+POWERUP = pygame.mixer.Sound(PATH+"sound\\powerup.mp3")
 
 HEALTH_FONT = pygame.font.Font(PATH+'font\\game.ttf', 20)
 SCORE_FONT = pygame.font.Font(PATH+'font\\game.ttf', 20)

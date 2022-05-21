@@ -7,7 +7,8 @@ import random
 class powerUp():
     def __init__(self, vel, width, height):
         self.x = WIDTH
-        self.y = random.randint(0, HEIGHT - height)
+        self.x = WIDTH
+        self.y = random.randint(0, HEIGHT - 50)
         self.width = width
         self.height = height
         self.color = YELLOW
@@ -37,12 +38,13 @@ class NewBullets(powerUp):
         player.maxBullets+=1
 
 def spawnPowerUp(seconds, powerUps):
-    if(seconds%10==0):
-        rand = random.randint(0, 10)
-        if rand%2==0:
+    if(seconds%3==0):
+        rand = random.randint(0, 2)
+        if rand%2==1:
             powerUps.append(Health(3, 50, 50))
         else:
             powerUps.append(NewBullets(3, 50, 50))
-        return powerUps
+    print(len(powerUps))
+    return powerUps
 
 

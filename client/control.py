@@ -1,7 +1,7 @@
 import pygame
 
 from client.Enemy import SimpleEnemy, EnemyBullet, SuperEnemy
-from client.variables import WIDTH, HEIGHT, LOSE_HEALTH
+from client.variables import WIDTH, HEIGHT, LOSE_HEALTH, POWERUP
 
 
 def handleBullets(player, bullets, enemies, eBullets):
@@ -11,7 +11,8 @@ def handleBullets(player, bullets, enemies, eBullets):
         for enemy in enemies:
             if bullet.rect.colliderect(enemy):
                 enemy.health -= 1
-                player.bullets.remove(bullet)
+                if bullet in player.bullets:
+                    player.bullets.remove(bullet)
                 if enemy.health == 0:
                     player.score += enemy.points
                     enemies.remove(enemy)
@@ -26,13 +27,12 @@ def handleBullets(player, bullets, enemies, eBullets):
 
 def handlePowerUp(player, powerUps):
     for powerUp in powerUps:
-        if powerUp.x - powerUp.width < WIDTH or powerUp.y - powerUp.height < HEIGHT:
-           powerUp.remove(powerUps)
+        if powerUp.x + powerUp.width < 0 or powerUp.y < 0 or powerUp.y > HEIGHT:
+            powerUps.remove(powerUp)
         if player.rect.colliderect(powerUp):
-            powerUp.DoSth(player)
-            powerUp.remove(powerUp)
-    print(type(powerUps))
-    print("Error in handle PowerUP")
+            powerUp.doSth(player)
+            POWERUP.play()
+            powerUps.remove(powerUp)
     return powerUps
 
 
