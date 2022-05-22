@@ -8,13 +8,13 @@ WIDTH = 900
 HEIGHT = 500
 FPS = 80
 
-WHITE=(255,255,255)
-BLACK=(0,0,0)
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
 YELLOW = (249, 215, 28)
 ORANGEYELLOW = (255, 172, 0)
 
-PATH=os.path.dirname(os.path.abspath(__file__))
-PATH=PATH.replace("client", "")
+PATH = os.path.dirname(os.path.abspath(__file__))
+PATH = PATH.replace("client", "")
 
 FILE = PATH+"temp\\lastKeyListening"
 INST = PATH+"txt\\instructions"
@@ -62,3 +62,4 @@ END_QUIT = pygame.font.Font(PATH+'font\\game.ttf', 40)
 
 MAX_ENEMIES = 3
 enemies = []
+VEL = 1.1

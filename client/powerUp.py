@@ -27,7 +27,7 @@ class Health(powerUp):
         powerUp.__init__(self, vel, width, height)
 
     def doSth(self, player):
-        player.health+=1
+        player.health += 1
 
 class NewBullets(powerUp):
     def __init__(self, vel, width, height):
@@ -35,16 +35,15 @@ class NewBullets(powerUp):
         self.color = ORANGEYELLOW
 
     def doSth(self, player):
-        player.maxBullets+=1
+        player.maxBullets += 1
 
-def spawnPowerUp(seconds, powerUps):
-    if(seconds%3==0):
+def spawnPowerUp(seconds, powerUps, basicVelPUp):
+    if seconds % 10 == 0:
         rand = random.randint(0, 2)
-        if rand%2==1:
-            powerUps.append(Health(3, 50, 50))
+        if rand % 2 == 1:
+            powerUps.append(Health(basicVelPUp, 50, 50))
         else:
-            powerUps.append(NewBullets(3, 50, 50))
-    print(len(powerUps))
+            powerUps.append(NewBullets(basicVelPUp, 50, 50))
     return powerUps
 
 

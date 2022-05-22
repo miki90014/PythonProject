@@ -1,12 +1,12 @@
 import pygame
 
-from client.Enemy import SimpleEnemy, EnemyBullet, SuperEnemy
-from client.variables import WIDTH, HEIGHT, LOSE_HEALTH, POWERUP
+from client.enemy import SimpleEnemy, EnemyBullet, SuperEnemy
+from client.variables import WIDTH, HEIGHT, LOSE_HEALTH, POWERUP, VEL
 
 
 def handleBullets(player, bullets, enemies, eBullets):
     for bullet in bullets:
-        if bullet.x + bullet.width >WIDTH:
+        if bullet.x + bullet.width > WIDTH:
             player.bullets.remove(bullet)
         for enemy in enemies:
             if bullet.rect.colliderect(enemy):
@@ -35,6 +35,17 @@ def handlePowerUp(player, powerUps):
             powerUps.remove(powerUp)
     return powerUps
 
+def changeDificulty(player, basicVelB, basicVeleB, basicVelE, basicVelSE, basicVelSupE, basicVelPUp):
+    basicVelB *= VEL
+    basicVeleB *= VEL
+    basicVelE *= VEL
+    basicVelSE *= VEL
+    basicVelSupE *= VEL
+    basicVelPUp *= VEL
+    player.changeVel()
+    return basicVelB, basicVeleB, basicVelE, basicVelSE, basicVelSupE, basicVelPUp
+
+
 
 def handleEnemies(player, enemies):
     for enemy in enemies:
@@ -47,11 +58,11 @@ def handleEnemies(player, enemies):
             enemies.remove(enemy)
     return enemies
 
-def createEBullets(enemies, eBullets, seconds):
+def createEBullets(enemies, eBullets, seconds, basicVeleB):
     for enemy in enemies:
         if isinstance(enemy, SimpleEnemy):
             if seconds % 2 == 0:
-                eBullets.append(EnemyBullet((0, 255, 0), enemy))
+                eBullets.append(EnemyBullet((0, 255, 0), enemy, basicVeleB))
         elif isinstance(enemy, SuperEnemy):
-                eBullets.append(EnemyBullet((0, 0, 255), enemy))
+                eBullets.append(EnemyBullet((0, 0, 255), enemy, basicVeleB))
     return eBullets

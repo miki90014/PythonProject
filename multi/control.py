@@ -1,6 +1,6 @@
 import pygame
 
-from client.Enemy import Enemy, SimpleEnemy, SuperEnemy
+from client.enemy import Enemy, SimpleEnemy, SuperEnemy
 from client.variables import BLACK, WHITE, WIDTH, HEIGHT, FPS, bg, END_QUIT, END_SCORE, END
 
 
