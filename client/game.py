@@ -145,6 +145,7 @@ def play():
 
     while run:
         f.write(str(p.x) + " " + str(p.y) + "\n")
+
         if seconds < int(time.time()-start_time):
             seconds = int(time.time()-start_time)
             enemies = spawnEnemy(seconds, enemies, basicVelE, basicVelSE, basicVelSupE, MAX_ENEMIES)
@@ -161,6 +162,7 @@ def play():
                 pygame.quit()
                 sys.exit()
                 f.close()
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and len(p.bullets) < p.maxBullets:
                     bullet = Bullet((255, 0, 0), p, basicVelB)

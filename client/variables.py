@@ -60,6 +60,9 @@ END_SCORE = pygame.font.Font(PATH+'font\\game.ttf', 40)
 
 END_QUIT = pygame.font.Font(PATH+'font\\game.ttf', 40)
 
+TITTLE_FONT = pygame.font.Font(PATH+'font\\game.ttf', 100)
+OPTION_FONT = pygame.font.Font(PATH+'font\\game.ttf', 40)
+
 MAX_ENEMIES = 3
 enemies = []
 VEL = 1.1

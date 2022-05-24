@@ -4,29 +4,17 @@ import pygame
 from animation.menuAnimation import Ship, drawShip, ReadFile
 from client import game
 from bin import game2
-from client.variables import WHITE, BLACK
+from client.variables import WHITE, BLACK, WIDTH, HEIGHT, OPTION_FONT, TITTLE_FONT, FPS, bg
 from instructions import instruction
-
-WIDTH = 900
-HEIGHT = 500
-FPS = 80
 
 click = False
 
-bg = pygame.image.load("images\\background.jpg")
-#bg = pygame.transform.scale(bg, (900,500))
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Spaceship")
 
-TITTLE_FONT = pygame.font.Font('font\\game.ttf', 100)
-OPTION_FONT = pygame.font.Font('font\\game.ttf', 40)
-
 def drawText(WIN, playx, playy, multix, multiy, instx, insty, quitx, quity, widith):
-    #WIN.blit(bg, (0, 0))
 
     TitleText = TITTLE_FONT.render("SPACESHIP", 1, (255,255,255))
-    #pygame.draw.rect(WIN, WHITE, (WIDTH/2 - 350, HEIGHT/2 - 50, 700, 100))
-    #pygame.draw.rect(WIN, BLACK, titleb)
     WIN.blit(TitleText, (WIDTH/15, HEIGHT/15))
 
     PlayText = OPTION_FONT.render("Play", 1, (255,255,255))
@@ -53,14 +41,6 @@ def menu():
     buttonx = WIDTH / 2 - buttonw/2
     buttony = (HEIGHT /2.5)
     padding = 10 + buttonh
-
-    #titlewid = 700
-    #titleh = 125
-    #titlex = WIDTH / 2 - titlewid/2
-    #titley = (HEIGHT / 15)
-
-    #titleb = pygame.Rect(titlex, titley, titlewid, titleh)
-    #titlew = pygame.Rect(titlex-1, titley-1, titlewid+2, titleh+2)
 
     playb = pygame.Rect(buttonx, buttony, buttonw, buttonh)
     playw = pygame.Rect(buttonx-1, buttony-1, buttonw+2, buttonh+2)
@@ -113,12 +93,10 @@ def menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 run = False
                 game2.play()
-                #options()
         if instb.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 run = False
                 instruction(WIN)
-                #option()
         if quitb.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.quit()

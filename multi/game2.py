@@ -79,7 +79,7 @@ def unpackData(data):
 
 def play():
     n = Network()
-    playerNumber =int(n.number)
+    playerNumber = int (n.number)
     print("You are player numer: "+ str(playerNumber))
     players = []
     enemies = []
