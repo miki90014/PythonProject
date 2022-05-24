@@ -1,7 +1,8 @@
 import pygame
 
 from client.enemy import SimpleEnemy, EnemyBullet, SuperEnemy
-from client.variables import WIDTH, HEIGHT, LOSE_HEALTH, POWERUP, VEL
+from client.variables import WIDTH, HEIGHT, VEL
+#LOSE_HEALTH, POWERUP, VEL
 
 
 def handleBullets(player, bullets, enemies, eBullets):
@@ -31,7 +32,7 @@ def handlePowerUp(player, powerUps):
             powerUps.remove(powerUp)
         if player.rect.colliderect(powerUp):
             powerUp.doSth(player)
-            POWERUP.play()
+            #POWERUP.play()
             powerUps.remove(powerUp)
     return powerUps
 
@@ -53,7 +54,7 @@ def handleEnemies(player, enemies):
             enemies.remove(enemy)
         if player.rect.colliderect(enemy):
             player.health -=1
-            LOSE_HEALTH.play()
+            #LOSE_HEALTH.play()
             pygame.event.post(pygame.event.Event(player.hit))
             enemies.remove(enemy)
     return enemies
