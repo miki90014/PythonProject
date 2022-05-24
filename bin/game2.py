@@ -5,9 +5,10 @@ import pygame
 import time
 
 from Network.network import Network
+from animation.gameAnimation import startGame
 from client.player import Player
 from client.variables import HEALTH_FONT, bg, SPACESHIP, END, END_SCORE, END_QUIT, WHITE, FPS, WIDTH, HEIGHT, BLACK, \
-    WIN, THREE, TWO, ONE, START
+    WIN, START
 #from menu import menu
 from bin.secPlayer import SecPlayer, handleBullets, handleEnemies
 from client.player import Bullet
@@ -26,26 +27,6 @@ class gameDate():
         return self.player.score
     def getHealth(self):
         return self.player.health
-
-def startGame():
-    WIN.blit(bg, (0, 0))
-    clock = pygame.time.Clock()
-    for i in range(4):
-        clock.tick(FPS)
-        counting(i)
-        time.sleep(1)
-        pygame.display.update()
-
-def counting(i):
-    if(i==0):
-        WIN.blit(THREE, (0, 0))
-    elif i==1:
-        WIN.blit(TWO, (0, 0))
-    elif i==2:
-        WIN.blit(ONE, (0, 0))
-    else:
-        WIN.blit(START, (0, 0))
-    pygame.display.update()
 
 def drawEnd(WIN, player1, player2):
     width = 720
@@ -180,7 +161,7 @@ def makePos(tup):
 
 
 def play():
-    startGame()
+    startGame(WIN)
     n = Network()
 
 
