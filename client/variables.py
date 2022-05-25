@@ -53,18 +53,21 @@ BULLET = pygame.transform.scale(BULLET, (50,50))
 #START_UP = pygame.mixer.Sound(PATH+"sound\\startup.mp3")
 #POWERUP = pygame.mixer.Sound(PATH+"sound\\powerup.mp3")
 
-HEALTH_FONT = pygame.font.Font(PATH+'font/game.ttf', 20)
-SCORE_FONT = pygame.font.Font(PATH+'font/game.ttf', 20)
+#HEALTH_FONT = pygame.font.Font(PATH+'font/game.ttf', 20)
 
-INSTRUCTION_FONT = pygame.font.Font(PATH+'font/game.ttf', 15)
+FONT = "game.TTF"
+HEALTH_FONT = pygame.font.Font(PATH+"font/"+FONT, 20)
+SCORE_FONT = pygame.font.Font(PATH+'font/'+FONT, 20)
 
-END = pygame.font.Font(PATH+'font/game.ttf', 100)
-END_SCORE = pygame.font.Font(PATH+'font/game.ttf', 40)
+INSTRUCTION_FONT = pygame.font.Font(PATH+'font/'+FONT, 15)
 
-END_QUIT = pygame.font.Font(PATH+'font/game.ttf', 40)
+END = pygame.font.Font(PATH+'font/'+FONT, 100)
+END_SCORE = pygame.font.Font(PATH+'font/'+FONT, 40)
 
-TITTLE_FONT = pygame.font.Font(PATH+'font/game.ttf', 100)
-OPTION_FONT = pygame.font.Font(PATH+'font/game.ttf', 40)
+END_QUIT = pygame.font.Font(PATH+'font/'+FONT, 40)
+
+TITTLE_FONT = pygame.font.Font(PATH+'font/'+FONT, 100)
+OPTION_FONT = pygame.font.Font(PATH+'font/'+FONT, 40)
 
 MAX_ENEMIES = 3
 enemies = []
