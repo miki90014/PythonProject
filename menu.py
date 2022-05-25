@@ -4,17 +4,13 @@ import pygame
 from animation.menuAnimation import Ship, drawShip, ReadFile
 from client import game
 from bin import game2
-from client.variables import WHITE, BLACK
+from client.variables import WHITE, BLACK, WIDTH, HEIGHT, FPS
 from instructions import instruction
 
-WIDTH = 900
-HEIGHT = 500
-FPS = 80
 
 click = False
 
 bg = pygame.image.load("images\\background.jpg")
-#bg = pygame.transform.scale(bg, (900,500))
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Spaceship")
 
@@ -111,8 +107,9 @@ def menu():
                 game.play()
         if multib.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN:
-                run = False
-                game2.play()
+                pass
+                #run = False
+                #game2.play()
                 #options()
         if instb.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN:
